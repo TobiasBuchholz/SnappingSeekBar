@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SnappingSeekBar">
+        <attr name="progressDrawable" format="reference"/>
+        <attr name="thumb" format="reference"/>
+        <attr name="itemsAmount" format="integer"/>
+        <attr name="itemsArrayId" format="reference"/>
+        <attr name="indicatorDrawable" format="reference"/>
+        <attr name="indicatorSize" format="dimension"/>
+        <attr name="progressColor" format="color"/>
+        <attr name="indicatorColor" format="color"/>
+        <attr name="thumbnailColor" format="color"/>
+        <attr name="textIndicatorColor" format="color"/>
+        <attr name="textStyle" format="reference"/>
+        <attr name="textIndicatorTopMargin" format="dimension"/>
+        <attr name="textSize" format="dimension"/>
+    </declare-styleable>
+</resources>

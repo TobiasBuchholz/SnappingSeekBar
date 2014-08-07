@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Roboto.Normal" parent="@android:style/TextAppearance">
+        <item name="android:typeface">sans</item>
+    </style>
+    <style name="Roboto.Normal.SingleLine" parent="Roboto.Normal">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Roboto.Normal.Micro" parent="Roboto.Normal">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="Roboto.Normal.Micro.SingleLine" parent="Roboto.Normal.Micro">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Roboto.Normal.Small" parent="@android:style/TextAppearance.Small">
+        <item name="android:typeface">sans</item>
+    </style>
+    <style name="Roboto.Normal.Small.SingleLine" parent="Roboto.Normal.Small">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Roboto.Normal.Medium" parent="@android:style/TextAppearance.Medium">
+        <item name="android:typeface">sans</item>
+    </style>
+    <style name="Roboto.Normal.Medium.SingleLine" parent="Roboto.Normal.Medium">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Roboto.Normal.Large" parent="@android:style/TextAppearance.Large">
+        <item name="android:typeface">sans</item>
+    </style>
+    <style name="Roboto.Normal.Large.SingleLine" parent="Roboto.Normal.Large">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+</resources>

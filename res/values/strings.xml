@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Snapping SeekBar Samples</string>
+    <string name="toast_item_selected">"SeekBar selected at index '%1$s' with text '%2$s'"</string>
+    <string name="app_description">This is a sample app for my SnappingSeekBar. You can see some different seek bar examples which are all attached to the same OnItemSelectionListener. Have fun playing around :)</string>
+    <string name="beer">Beer</string>
+    <string name="toast_error_in_app_billing">Unfortunately there was a payment problem: %s</string>
+
+    <string-array name="seek_bar_with_numbers_items">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="seek_bar_with_strings_items">
+        <item>SeekBar</item>
+        <item>with</item>
+        <item>some</item>
+        <item>strings</item>
+    </string-array>
+
+    <string-array name="seek_bar_with_different_colors_items">
+        <item>SeekBar</item>
+        <item>with</item>
+        <item>some</item>
+        <item>different</item>
+        <item>colors</item>
+    </string-array>
+
+    <string-array name="seek_bar_with_different_drawables_items">
+        <item>SeekBar</item>
+        <item>with</item>
+        <item>some</item>
+        <item>different</item>
+        <item>drawables</item>
+    </string-array>
+
+    <string-array name="seek_bar_with_big_indicators_items">
+        <item>SeekBar</item>
+        <item>with</item>
+        <item>big</item>
+        <item>indicators</item>
+    </string-array>
+</resources>

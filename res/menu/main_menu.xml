@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_beer"
+          android:title="@string/beer"
+          android:icon="@drawable/ic_action_beer"
+          android:showAsAction="always"/>
+</menu>
