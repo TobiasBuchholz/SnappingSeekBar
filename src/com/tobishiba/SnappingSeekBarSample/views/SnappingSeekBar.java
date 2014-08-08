@@ -19,11 +19,14 @@ import com.tobishiba.SnappingSeekBarSample.utils.UiUtils;
  * Date: 28.07.14 | Time: 14:18
  */
 public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBarChangeListener {
+    public static final int         NOT_INITIALIZED_THUMB_POSITION  = -1;
     private Context                 mContext;
     private SeekBar                 mSeekBar;
     private int                     mItemsAmount;
-    private int                     mProgress;
-    private String[]                mItems                      = new String[0];
+    private int                     mFromProgress;
+    private int                     mThumbPosition                  = NOT_INITIALIZED_THUMB_POSITION;
+    private int                     mToProgress;
+    private String[]                mItems                          = new String[0];
     private int                     mProgressDrawableId;
     private int                     mThumbDrawableId;
     private int                     mIndicatorDrawableId;
@@ -241,19 +244,34 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
 
     @Override
     public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
-        mProgress = progress;
+        mToProgress = progress;
+        initThumbPosition(progress, fromUser);
+        handleSetFromProgress(progress);
+    }
+
+    private void initThumbPosition(final int progress, final boolean fromUser) {
+        if(mThumbPosition == NOT_INITIALIZED_THUMB_POSITION && fromUser) {
+            mThumbPosition = progress;
+        }
+    }
+
+    private void handleSetFromProgress(final int progress) {
+        final int slidingDelta = progress - mThumbPosition;
+        if(slidingDelta > 1 || slidingDelta < -1) {
+            mFromProgress = progress;
+        }
     }
 
     private void handleSnapToClosestValue() {
         final float sectionLength = 100 / (mItemsAmount - 1);
-        final int selectedSection = (int) ((mProgress / sectionLength) + 0.5);
+        final int selectedSection = (int) ((mToProgress / sectionLength) + 0.5);
         final int valueToSnap = (int) (selectedSection * sectionLength);
         animateProgressBar(valueToSnap);
         invokeItemSelected(selectedSection);
     }
 
     private void animateProgressBar(final int toProgress) {
-        final ProgressBarAnimation anim = new ProgressBarAnimation(mSeekBar, mSeekBar.getProgress(), toProgress);
+        final ProgressBarAnimation anim = new ProgressBarAnimation(mSeekBar, mFromProgress, toProgress);
         anim.setDuration(200);
         startAnimation(anim);
     }
@@ -273,7 +291,8 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
 
     @Override
     public void onStartTrackingTouch(final SeekBar seekBar) {
-        // do nothing
+        mFromProgress = mSeekBar.getProgress();
+        mThumbPosition = NOT_INITIALIZED_THUMB_POSITION;
     }
 
     @Override
@@ -294,13 +313,13 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     }
 
     public void setProgress(final int progress) {
-        mProgress = progress;
+        mToProgress = progress;
         handleSnapToClosestValue();
     }
 
     public void setProgressToIndex(final int index) {
-        mProgress = getProgressForIndex(index);
-        mSeekBar.setProgress(mProgress);
+        mToProgress = getProgressForIndex(index);
+        mSeekBar.setProgress(mToProgress);
     }
 
     private int getProgressForIndex(final int index) {
@@ -309,13 +328,13 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     }
 
     public void setProgressToIndexWithAnimation(final int index) {
-        mProgress = getProgressForIndex(index);
-        animateProgressBar(mProgress);
+        mToProgress = getProgressForIndex(index);
+        animateProgressBar(mToProgress);
     }
 
     public int getSelectedItemIndex() {
         final float sectionLength = 100 / (mItemsAmount - 1);
-        return (int) ((mProgress / sectionLength) + 0.5);
+        return (int) ((mToProgress / sectionLength) + 0.5);
     }
 
     public void setOnItemSelectionListener(final OnItemSelectionListener listener) {

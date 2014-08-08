@@ -94,7 +94,7 @@ public class MainActivity extends Activity implements SnappingSeekBar.OnItemSele
 
     @Override
     public void onItemSelected(final int itemIndex, final String itemString) {
-        Toast.makeText(this, getString(R.string.toast_item_selected, itemIndex, itemString), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.toast_item_selected, itemIndex, itemString), Toast.LENGTH_SHORT).show();
     }
 
     @Override
