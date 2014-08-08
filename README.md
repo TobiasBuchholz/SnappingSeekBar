@@ -5,6 +5,8 @@ This is a sample app which contains my implementation of a snapping seek bar. If
  
 ##Demo
 You can also download the sample app in the Google Play Store: [demo](https://play.google.com/store/apps/details?id=com.tobishiba.SnappingSeekBarSample)
+
+<img src="http://api.qrserver.com/v1/create-qr-code/?color=000000&amp;bgcolor=FFFFFF&amp;data=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.tobishiba.SnappingSeekBarSample&amp;qzone=1&amp;margin=0&amp;size=150x150&amp;ecc=L" alt="qr code" />
  
 ##Features
  - create the seek bar from xml or from layout
