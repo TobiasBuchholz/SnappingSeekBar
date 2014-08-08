@@ -38,6 +38,7 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     private int                     mTextStyleId;
     private float                   mTextSize;
     private float                   mIndicatorSize;
+    private float                   mDensity;
     private Drawable                mProgressDrawable;
     private Drawable                mThumbDrawable;
     private OnItemSelectionListener mOnItemSelectionListener;
@@ -45,12 +46,16 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     public SnappingSeekBar(final Context context) {
         super(context);
         mContext = context;
+        initDensity();
         initDefaultValues();
         initViewsAfterLayoutPrepared();
     }
 
+    private void initDensity() {
+        mDensity = mContext.getResources().getDisplayMetrics().density;
+    }
+
     private void initDefaultValues() {
-        final float density = getDensity();
         mProgressDrawableId = R.drawable.apptheme_scrubber_progress_horizontal_holo_light;
         mThumbDrawableId = R.drawable.apptheme_scrubber_control_selector_holo_light;
         mIndicatorDrawableId = R.drawable.circle_background;
@@ -58,13 +63,9 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         mIndicatorColor = Color.WHITE;
         mThumbnailColor = Color.WHITE;
         mTextIndicatorColor = Color.WHITE;
-        mTextIndicatorTopMargin = 35 * density;
-        mTextSize = 12 * density;
-        mIndicatorSize = 11.3f * density;
-    }
-
-    private float getDensity() {
-        return mContext.getResources().getDisplayMetrics().density;
+        mTextIndicatorTopMargin = 35 * mDensity;
+        mTextSize = 12 * mDensity;
+        mIndicatorSize = 11.3f * mDensity;
     }
 
     private void initViewsAfterLayoutPrepared() {
@@ -79,6 +80,7 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     public SnappingSeekBar(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
+        initDensity();
         handleAttributeSet(attrs);
         initViews();
     }
@@ -133,14 +135,13 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     }
 
     private void initIndicatorAttributes(final TypedArray typedArray) {
-        mIndicatorSize = typedArray.getDimension(R.styleable.SnappingSeekBar_indicatorSize, 11.3f * getDensity());
+        mIndicatorSize = typedArray.getDimension(R.styleable.SnappingSeekBar_indicatorSize, 11.3f * mDensity);
     }
 
     private void initTextAttributes(final TypedArray typedArray) {
-        final float density = getDensity();
-        mTextIndicatorTopMargin = typedArray.getDimension(R.styleable.SnappingSeekBar_textIndicatorTopMargin, 35 * density);
+        mTextIndicatorTopMargin = typedArray.getDimension(R.styleable.SnappingSeekBar_textIndicatorTopMargin, 35 * mDensity);
         mTextStyleId = typedArray.getResourceId(R.styleable.SnappingSeekBar_textStyle, 0);
-        mTextSize = typedArray.getDimension(R.styleable.SnappingSeekBar_textSize, 12 * density);
+        mTextSize = typedArray.getDimension(R.styleable.SnappingSeekBar_textSize, 12 * mDensity);
     }
 
     private void initColors(final TypedArray typedArray) {
@@ -220,7 +221,7 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         final TextView textIndicator = new TextView(mContext);
         final int numberLeftMargin = (int) (seekBarWidthWithoutThumbOffset / 100 * index * sectionFactor + thumbnailWidth / 2);
         textIndicator.setText(mItems[index]);
-        textIndicator.setTextSize(mTextSize / getDensity());
+        textIndicator.setTextSize(mTextSize / mDensity);
         textIndicator.setTextColor(mTextIndicatorColor);
         textIndicator.setTextAppearance(mContext, mTextStyleId);
         textParams.topMargin = (int) mTextIndicatorTopMargin;
@@ -377,12 +378,12 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         mTextStyleId = textStyleId;
     }
 
-    public void setTextSize(final float textSize) {
-        mTextSize = textSize;
+    public void setTextSize(final int textSize) {
+        mTextSize = mDensity * textSize;
     }
 
-    public void setIndicatorSize(final float indicatorSize) {
-        mIndicatorSize = indicatorSize;
+    public void setIndicatorSize(final int indicatorSize) {
+        mIndicatorSize = mDensity * indicatorSize;
     }
 
     public interface OnItemSelectionListener {

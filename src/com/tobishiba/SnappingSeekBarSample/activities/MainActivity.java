@@ -77,7 +77,6 @@ public class MainActivity extends Activity implements SnappingSeekBar.OnItemSele
 
     private SnappingSeekBar createSnappingSeekBarProgrammatically() {
         final Resources resources = getResources();
-        final float density = resources.getDisplayMetrics().density;
         final SnappingSeekBar snappingSeekBar = new SnappingSeekBar(this);
         snappingSeekBar.setProgressDrawable(R.drawable.apptheme_scrubber_progress_horizontal_holo_light);
         snappingSeekBar.setThumbDrawable(R.drawable.apptheme_scrubber_control_selector_holo_light);
@@ -86,8 +85,8 @@ public class MainActivity extends Activity implements SnappingSeekBar.OnItemSele
         snappingSeekBar.setThumbnailColor(resources.getColor(R.color.yellow_light));
         snappingSeekBar.setTextIndicatorColor(resources.getColor(R.color.red_darker));
         snappingSeekBar.setIndicatorColor(resources.getColor(R.color.green_light));
-        snappingSeekBar.setTextSize(14 * density);
-        snappingSeekBar.setIndicatorSize(14 * density);
+        snappingSeekBar.setTextSize(14);
+        snappingSeekBar.setIndicatorSize(14);
         snappingSeekBar.setOnItemSelectionListener(this);
         return snappingSeekBar;
     }
