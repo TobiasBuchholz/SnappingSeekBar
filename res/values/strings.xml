@@ -41,4 +41,8 @@
         <item>big</item>
         <item>indicators</item>
     </string-array>
+
+    <string name="programmatically">Programmatically</string>
+    <string name="created">created</string>
+    <string name="seekBar">seekBar</string>
 </resources>

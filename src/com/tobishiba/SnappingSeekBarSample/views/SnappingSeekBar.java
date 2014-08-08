@@ -23,21 +23,55 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     private SeekBar                 mSeekBar;
     private int                     mItemsAmount;
     private int                     mProgress;
-    private String[]                mItems              = new String[0];
+    private String[]                mItems                      = new String[0];
     private int                     mProgressDrawableId;
     private int                     mThumbDrawableId;
     private int                     mIndicatorDrawableId;
-    private float                   mIndicatorSize;
-    private int                     mSeekBarColor;
+    private int                     mProgressColor;
     private int                     mIndicatorColor;
-    private float                   mTextIndicatorTopMargin;
     private int                     mThumbnailColor;
     private int                     mTextIndicatorColor;
+    private float                   mTextIndicatorTopMargin;
     private int                     mTextStyleId;
     private float                   mTextSize;
+    private float                   mIndicatorSize;
     private Drawable                mProgressDrawable;
     private Drawable                mThumbDrawable;
     private OnItemSelectionListener mOnItemSelectionListener;
+
+    public SnappingSeekBar(final Context context) {
+        super(context);
+        mContext = context;
+        initDefaultValues();
+        initViewsAfterLayoutPrepared();
+    }
+
+    private void initDefaultValues() {
+        final float density = getDensity();
+        mProgressDrawableId = R.drawable.apptheme_scrubber_progress_horizontal_holo_light;
+        mThumbDrawableId = R.drawable.apptheme_scrubber_control_selector_holo_light;
+        mIndicatorDrawableId = R.drawable.circle_background;
+        mProgressColor = Color.WHITE;
+        mIndicatorColor = Color.WHITE;
+        mThumbnailColor = Color.WHITE;
+        mTextIndicatorColor = Color.WHITE;
+        mTextIndicatorTopMargin = 35 * density;
+        mTextSize = 12 * density;
+        mIndicatorSize = 11.3f * density;
+    }
+
+    private float getDensity() {
+        return mContext.getResources().getDisplayMetrics().density;
+    }
+
+    private void initViewsAfterLayoutPrepared() {
+        UiUtils.waitForLayoutPrepared(this, new UiUtils.LayoutPreparedListener() {
+            @Override
+            public void onLayoutPrepared(final View preparedView) {
+                initViews();
+            }
+        });
+    }
 
     public SnappingSeekBar(final Context context, final AttributeSet attrs) {
         super(context, attrs);
@@ -66,29 +100,37 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     }
 
     private void initItems(final TypedArray typedArray) {
-        final int valueArrayId = typedArray.getResourceId(R.styleable.SnappingSeekBar_itemsArrayId, 0);
-        if(valueArrayId > 0) {
-            setItems(mContext.getResources().getStringArray(valueArrayId));
+        final int itemsArrayId = typedArray.getResourceId(R.styleable.SnappingSeekBar_itemsArrayId, 0);
+        if(itemsArrayId > 0) {
+            setItems(itemsArrayId);
         } else {
             setItemsAmount(typedArray.getInteger(R.styleable.SnappingSeekBar_itemsAmount, 10));
         }
     }
 
+    public void setItems(final int itemsArrayId) {
+        setItems(mContext.getResources().getStringArray(itemsArrayId));
+    }
+
     public void setItems(final String[] items) {
-        mItems = items;
-        mItemsAmount = mItems.length;
+        if(items.length > 1) {
+            mItems = items;
+            mItemsAmount = mItems.length;
+        } else {
+            throw new IllegalStateException("SnappingSeekBar has to contain at least 2 items");
+        }
     }
 
     public void setItemsAmount(final int itemsAmount) {
-        mItemsAmount = itemsAmount;
+        if(itemsAmount > 1) {
+            mItemsAmount = itemsAmount;
+        } else {
+            throw new IllegalStateException("SnappingSeekBar has to contain at least 2 items");
+        }
     }
 
     private void initIndicatorAttributes(final TypedArray typedArray) {
         mIndicatorSize = typedArray.getDimension(R.styleable.SnappingSeekBar_indicatorSize, 11.3f * getDensity());
-    }
-
-    private float getDensity() {
-        return mContext.getResources().getDisplayMetrics().density;
     }
 
     private void initTextAttributes(final TypedArray typedArray) {
@@ -99,13 +141,13 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     }
 
     private void initColors(final TypedArray typedArray) {
-        mSeekBarColor = typedArray.getColor(R.styleable.SnappingSeekBar_progressColor, Color.WHITE);
+        mProgressColor = typedArray.getColor(R.styleable.SnappingSeekBar_progressColor, Color.WHITE);
         mIndicatorColor = typedArray.getColor(R.styleable.SnappingSeekBar_indicatorColor, Color.WHITE);
         mThumbnailColor = typedArray.getColor(R.styleable.SnappingSeekBar_thumbnailColor, Color.WHITE);
         mTextIndicatorColor = typedArray.getColor(R.styleable.SnappingSeekBar_textIndicatorColor, Color.WHITE);
     }
 
-    private void initViews() {
+    public void initViews() {
         initSeekBar();
         initIndicators();
     }
@@ -123,7 +165,7 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         final Resources resources = getResources();
         mProgressDrawable = resources.getDrawable(mProgressDrawableId);
         mThumbDrawable = resources.getDrawable(mThumbDrawableId);
-        UiUtils.setColor(mProgressDrawable, mSeekBarColor);
+        UiUtils.setColor(mProgressDrawable, mProgressColor);
         UiUtils.setColor(mThumbDrawable, mThumbnailColor);
         mSeekBar.setProgressDrawable(mProgressDrawable);
         mSeekBar.setThumb(mThumbDrawable);
@@ -278,6 +320,50 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
 
     public void setOnItemSelectionListener(final OnItemSelectionListener listener) {
         mOnItemSelectionListener = listener;
+    }
+
+    public void setProgressDrawable(final int progressDrawableId) {
+        mProgressDrawableId = progressDrawableId;
+    }
+
+    public void setThumbDrawable(final int thumbDrawableId) {
+        mThumbDrawableId = thumbDrawableId;
+    }
+
+    public void setIndicatorDrawable(final int indicatorDrawableId) {
+        mIndicatorDrawableId = indicatorDrawableId;
+    }
+
+    public void setProgressColor(final int progressColor) {
+        mProgressColor = progressColor;
+    }
+
+    public void setIndicatorColor(final int indicatorColor) {
+        mIndicatorColor = indicatorColor;
+    }
+
+    public void setThumbnailColor(final int thumbnailColor) {
+        mThumbnailColor = thumbnailColor;
+    }
+
+    public void setTextIndicatorColor(final int textIndicatorColor) {
+        mTextIndicatorColor = textIndicatorColor;
+    }
+
+    public void setTextIndicatorTopMargin(final float textIndicatorTopMargin) {
+        mTextIndicatorTopMargin = textIndicatorTopMargin;
+    }
+
+    public void setTextStyleId(final int textStyleId) {
+        mTextStyleId = textStyleId;
+    }
+
+    public void setTextSize(final float textSize) {
+        mTextSize = textSize;
+    }
+
+    public void setIndicatorSize(final float indicatorSize) {
+        mIndicatorSize = indicatorSize;
     }
 
     public interface OnItemSelectionListener {

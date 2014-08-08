@@ -3,16 +3,17 @@ package com.tobishiba.SnappingSeekBarSample.activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.*;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.tobishiba.SnappingSeekBarSample.R;
 import com.tobishiba.SnappingSeekBarSample.inappbilling.GoogleIabHelper;
 import com.tobishiba.SnappingSeekBarSample.inappbilling.GoogleReceipt;
+import com.tobishiba.SnappingSeekBarSample.utils.UiUtils;
 import com.tobishiba.SnappingSeekBarSample.views.SnappingSeekBar;
 
 /**
@@ -23,12 +24,13 @@ public class MainActivity extends Activity implements SnappingSeekBar.OnItemSele
     private GoogleIabHelper mIabHelper;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initInAppBillingHelper();
         initActionBar();
-        initSeekBars();
+        initSeekBarsFromLayout();
+        initSeekBarProgrammatically();
     }
 
     private void initInAppBillingHelper() {
@@ -43,27 +45,51 @@ public class MainActivity extends Activity implements SnappingSeekBar.OnItemSele
         }
     }
 
-    private void initSeekBars() {
-        final SnappingSeekBar seekBarWithoutTexts = (SnappingSeekBar) findViewById(R.id.activity_main_seek_bar_without_texts);
-        final SnappingSeekBar seekBarWithNumbers = (SnappingSeekBar) findViewById(R.id.activity_main_seek_bar_with_numbers);
-        final SnappingSeekBar seekBarWithStrings = (SnappingSeekBar) findViewById(R.id.activity_main_seek_bar_with_strings);
-        final SnappingSeekBar seekBarWithDifferentColors = (SnappingSeekBar) findViewById(R.id.activity_main_seek_bar_with_different_colors);
-        final SnappingSeekBar seekBarWithDifferentDrawables = (SnappingSeekBar) findViewById(R.id.activity_main_seek_bar_with_different_drawables);
-        final SnappingSeekBar seekBarWithBigIndicators = (SnappingSeekBar) findViewById(R.id.activity_main_seek_bar_with_bigg_indicators);
+    private void initSeekBarsFromLayout() {
+        initSeekBarFromLayout(R.id.activity_main_seek_bar_without_texts, 1);
+        initSeekBarFromLayout(R.id.activity_main_seek_bar_with_numbers, 1);
+        initSeekBarFromLayout(R.id.activity_main_seek_bar_with_strings, 2);
+        initSeekBarFromLayout(R.id.activity_main_seek_bar_with_different_colors, 4);
+        initSeekBarFromLayout(R.id.activity_main_seek_bar_with_different_drawables, 3);
+        initSeekBarFromLayout(R.id.activity_main_seek_bar_with_big_indicators, 2);
+    }
 
-        seekBarWithoutTexts.setProgressToIndex(1);
-        seekBarWithNumbers.setProgressToIndex(1);
-        seekBarWithStrings.setProgressToIndex(2);
-        seekBarWithDifferentColors.setProgressToIndex(3);
-        seekBarWithDifferentDrawables.setProgressToIndex(3);
-        seekBarWithBigIndicators.setProgressToIndex(3);
+    private void initSeekBarFromLayout(final int resId, final int progressIndex) {
+        final SnappingSeekBar snappingSeekBar = (SnappingSeekBar) findViewById(resId);
+        snappingSeekBar.setProgressToIndex(progressIndex);
+        snappingSeekBar.setOnItemSelectionListener(this);
+    }
 
-        seekBarWithoutTexts.setOnItemSelectionListener(this);
-        seekBarWithNumbers.setOnItemSelectionListener(this);
-        seekBarWithStrings.setOnItemSelectionListener(this);
-        seekBarWithDifferentColors.setOnItemSelectionListener(this);
-        seekBarWithDifferentDrawables.setOnItemSelectionListener(this);
-        seekBarWithBigIndicators.setOnItemSelectionListener(this);
+    private void initSeekBarProgrammatically() {
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final LinearLayout layout = (LinearLayout) findViewById(R.id.activity_main_layout);
+        final SnappingSeekBar snappingSeekBar = createSnappingSeekBarProgrammatically();
+        final int margin = (int) (20 * getResources().getDisplayMetrics().density);
+        params.setMargins(margin, margin, margin, margin);
+        layout.addView(snappingSeekBar, params);
+        UiUtils.waitForLayoutPrepared(snappingSeekBar, new UiUtils.LayoutPreparedListener() {
+            @Override
+            public void onLayoutPrepared(final View preparedView) {
+                snappingSeekBar.setProgressToIndex(1);
+            }
+        });
+    }
+
+    private SnappingSeekBar createSnappingSeekBarProgrammatically() {
+        final Resources resources = getResources();
+        final float density = resources.getDisplayMetrics().density;
+        final SnappingSeekBar snappingSeekBar = new SnappingSeekBar(this);
+        snappingSeekBar.setProgressDrawable(R.drawable.apptheme_scrubber_progress_horizontal_holo_light);
+        snappingSeekBar.setThumbDrawable(R.drawable.apptheme_scrubber_control_selector_holo_light);
+        snappingSeekBar.setItems(new String[]{getString(R.string.programmatically), getString(R.string.created), getString(R.string.seekBar)});
+        snappingSeekBar.setProgressColor(resources.getColor(R.color.green_darker));
+        snappingSeekBar.setThumbnailColor(resources.getColor(R.color.yellow_light));
+        snappingSeekBar.setTextIndicatorColor(resources.getColor(R.color.red_darker));
+        snappingSeekBar.setIndicatorColor(resources.getColor(R.color.green_light));
+        snappingSeekBar.setTextSize(14 * density);
+        snappingSeekBar.setIndicatorSize(14 * density);
+        snappingSeekBar.setOnItemSelectionListener(this);
+        return snappingSeekBar;
     }
 
     @Override
