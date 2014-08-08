@@ -65,4 +65,4 @@ Most of the attributes have a default value, so the minimum setup looks like the
 If you would like to contribute to this project make sure you send pull request to <b>dev</b> branch or create an issue.
 
 ##Developed by
-* Tobias Buchholz - <tobias.buchhokz89@gmail.com>
+* Tobias Buchholz - <tobias.buchholz89@gmail.com>
