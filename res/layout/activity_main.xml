@@ -29,17 +29,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            app:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
-            app:thumb="@drawable/apptheme_scrubber_control_selector_holo_light"
-            app:progressColor="@color/white"
             app:itemsAmount="5"/>
         <com.tobishiba.SnappingSeekBarSample.views.SnappingSeekBar
             android:id="@+id/activity_main_seek_bar_with_numbers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            app:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
-            app:thumb="@drawable/apptheme_scrubber_control_selector_holo_light"
             app:progressColor="@color/yellow_light"
             app:itemsArrayId="@array/seek_bar_with_numbers_items"/>
         <com.tobishiba.SnappingSeekBarSample.views.SnappingSeekBar
@@ -47,8 +42,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            app:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
-            app:thumb="@drawable/apptheme_scrubber_control_selector_holo_light"
             app:progressColor="@color/red_light"
             app:itemsArrayId="@array/seek_bar_with_strings_items"/>
         <com.tobishiba.SnappingSeekBarSample.views.SnappingSeekBar
@@ -56,8 +49,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            app:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
-            app:thumb="@drawable/apptheme_scrubber_control_selector_holo_light"
             app:progressColor="@color/green"
             app:thumbnailColor="@color/red_light"
             app:indicatorColor="@color/yellow_light"
@@ -69,7 +60,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             app:textIndicatorTopMargin="50dp"
-            app:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
             app:indicatorDrawable="@drawable/rect_background"
             app:thumb="@drawable/apptheme_scrubber_control_selector_alternative"
             app:progressColor="@color/blue"
@@ -79,8 +69,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            app:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
-            app:thumb="@drawable/apptheme_scrubber_control_selector_holo_light"
             app:progressColor="@color/magenta"
             app:textSize="18dp"
             app:indicatorSize="18dp"
