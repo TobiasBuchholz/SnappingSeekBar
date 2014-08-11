@@ -7,6 +7,10 @@ This is a sample app which contains my implementation of a snapping seek bar. If
 You can also download the sample app in the Google Play Store: [demo](https://play.google.com/store/apps/details?id=com.tobishiba.SnappingSeekBarSample)
 
 <img src="http://api.qrserver.com/v1/create-qr-code/?color=000000&amp;bgcolor=FFFFFF&amp;data=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.tobishiba.SnappingSeekBarSample&amp;qzone=1&amp;margin=0&amp;size=150x150&amp;ecc=L" alt="qr code" />
+
+![](https://github.com/TobiasBuchholz/SnappingSeekBar/blob/master/sample.gif)
+
+
  
 ##Features
  - create the seek bar from xml or from layout
@@ -19,19 +23,20 @@ You can also download the sample app in the Google Play Store: [demo](https://pl
  
 ####In xml use the following attributes:
 
-
-    <com.tobishiba.SnappingSeekBarSample.views.SnappingSeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-    	app:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
-    	app:thumb="@drawable/apptheme_scrubber_control_selector_holo_light"
-    	app:progressColor="@color/blue"
-    	app:thumbnailColor="@color/blue_light"
-    	app:indicatorColor="@color/white"
-    	app:textIndicatorColor="@color/white"
-    	app:textSize="12dp"
-    	app:indicatorSize="12dp"
-    	app:itemsArrayId="@array/seek_bar_with_big_indicators_items"/> 
+```xml
+<com.tobishiba.SnappingSeekBarSample.views.SnappingSeekBar
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+app:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
+app:thumb="@drawable/apptheme_scrubber_control_selector_holo_light"
+app:progressColor="@color/blue"
+app:thumbnailColor="@color/blue_light"
+app:indicatorColor="@color/white"
+app:textIndicatorColor="@color/white"
+app:textSize="12dp"
+app:indicatorSize="12dp"
+app:itemsArrayId="@array/seek_bar_with_big_indicators_items"/> 
+```
 
 </br>
 </br>
