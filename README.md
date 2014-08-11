@@ -25,46 +25,49 @@ You can also download the sample app in the Google Play Store: [demo](https://pl
 
 ```xml
 <com.tobishiba.SnappingSeekBarSample.views.SnappingSeekBar
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-app:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
-app:thumb="@drawable/apptheme_scrubber_control_selector_holo_light"
-app:progressColor="@color/blue"
-app:thumbnailColor="@color/blue_light"
-app:indicatorColor="@color/white"
-app:textIndicatorColor="@color/white"
-app:textSize="12dp"
-app:indicatorSize="12dp"
-app:itemsArrayId="@array/seek_bar_with_big_indicators_items"/> 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
+    app:thumb="@drawable/apptheme_scrubber_control_selector_holo_light"
+    app:progressColor="@color/blue"
+    app:thumbnailColor="@color/blue_light"
+    app:indicatorColor="@color/white"
+    app:textIndicatorColor="@color/white"
+    app:textSize="12dp"
+    app:indicatorSize="12dp"
+    app:itemsArrayId="@array/seek_bar_with_big_indicators_items"/> 
 ```
 
 </br>
 </br>
 Most of the attributes have a default value, so the minimum setup looks like the following:
 
-	<com.tobishiba.SnappingSeekBarSample.views.SnappingSeekBar
-    	android:id="@+id/activity_main_seek_bar_without_texts"
-	    android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-	    app:itemsAmount="5"/>
+```xml
+<com.tobishiba.SnappingSeekBarSample.views.SnappingSeekBar
+    android:id="@+id/activity_main_seek_bar_without_texts"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:itemsAmount="5"/>
+```
 
 </br>
 ####From code it could look like this:
-	private SnappingSeekBar createSnappingSeekBarProgrammatically() {
-    	final SnappingSeekBar snappingSeekBar = new SnappingSeekBar(this);
-		snappingSeekBar.setProgressDrawable(R.drawable.apptheme_scrubber_progress_horizontal_holo_light);
-	    snappingSeekBar.setThumbDrawable(R.drawable.apptheme_scrubber_control_selector_holo_light);
-    	snappingSeekBar.setItems(new String[]{"Wow", "such", "amazing"});
-	    snappingSeekBar.setProgressColor(resources.getColor(R.color.green_darker));
-    	snappingSeekBar.setThumbnailColor(resources.getColor(R.color.yellow_light));
-    	snappingSeekBar.setTextIndicatorColor(resources.getColor(R.color.red_darker));
-    	snappingSeekBar.setIndicatorColor(resources.getColor(R.color.green_light));
-    	snappingSeekBar.setTextSize(14);
-    	snappingSeekBar.setIndicatorSize(14);
-    	snappingSeekBar.setOnItemSelectionListener(this);
-    	return snappingSeekBar;
-	}
-
+```java
+private SnappingSeekBar createSnappingSeekBarProgrammatically() {
+    final SnappingSeekBar snappingSeekBar = new SnappingSeekBar(this);
+    snappingSeekBar.setProgressDrawable(R.drawable.apptheme_scrubber_progress_horizontal_holo_light);
+    snappingSeekBar.setThumbDrawable(R.drawable.apptheme_scrubber_control_selector_holo_light);
+    snappingSeekBar.setItems(new String[]{"Wow", "such", "amazing"});
+    snappingSeekBar.setProgressColor(resources.getColor(R.color.green_darker));
+    snappingSeekBar.setThumbnailColor(resources.getColor(R.color.yellow_light));
+    snappingSeekBar.setTextIndicatorColor(resources.getColor(R.color.red_darker));
+    snappingSeekBar.setIndicatorColor(resources.getColor(R.color.green_light));
+    snappingSeekBar.setTextSize(14);
+    snappingSeekBar.setIndicatorSize(14);
+    snappingSeekBar.setOnItemSelectionListener(this);
+    return snappingSeekBar;
+}
+```
 
  </br>
 ##Contribution
