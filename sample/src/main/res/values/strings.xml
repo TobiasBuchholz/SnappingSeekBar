@@ -45,4 +45,5 @@
     <string name="programmatically">Programmatically</string>
     <string name="created">created</string>
     <string name="seekBar">seekBar</string>
+    <string name="action_settings">Settings</string>
 </resources>

@@ -14,7 +14,9 @@ import android.widget.RelativeLayout;
 public class UiUtils {
 
     public static void setColor(final Drawable drawable, final int color) {
-        drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+        if(drawable != null) {
+            drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+        }
     }
 
     public static void setLeftMargin(final View view, final int leftMargin) {
@@ -53,4 +55,9 @@ public class UiUtils {
         public void onLayoutPrepared(final View preparedView);
     }
 
+    public static int getXPositionOfView(final View view) {
+        final int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        return location[0];
+    }
 }
