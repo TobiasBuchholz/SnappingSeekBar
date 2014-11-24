@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -45,6 +46,7 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     private TextBubble              mBubble;
     private AnimatingThumb          mAnimatingThumb;
     private int                     mBubbleSize;
+    private int                     mSeekBarWidth;
 
     public SnappingSeekBar(final Context context) {
         super(context);
@@ -52,6 +54,8 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         initDensity();
         initDefaultValues();
         initViewsAfterLayoutPrepared();
+        setPadding(mBubbleSize/2, 0, mBubbleSize/2, 0);
+        setClipToPadding(false);
     }
 
     private void initDensity() {
@@ -87,7 +91,9 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         initDensity();
         initDefaultValues();
         handleAttributeSet(attrs);
+        setPadding(mBubbleSize/2, 0, mBubbleSize/2, 0);
         initViews();
+        setClipToPadding(false);
     }
 
     private void handleAttributeSet(final AttributeSet attrs) {
@@ -199,25 +205,26 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         UiUtils.waitForLayoutPrepared(mSeekBar, new UiUtils.LayoutPreparedListener() {
             @Override
             public void onLayoutPrepared(final View preparedView) {
-                final int seekBarWidth = preparedView.getWidth();
+                mSeekBarWidth = preparedView.getWidth();
                 final int seekBarHeight = preparedView.getHeight();
-                initIndicators(seekBarWidth);
+                initIndicators();
                 initAnimatingThumb(seekBarHeight);
+                initBubbleXPosition();
             }
         });
     }
 
-    private void initIndicators(final int seekBarWidth) {
+    private void initIndicators() {
         for(int i = 0; i < mItemsAmount; i++) {
-//            addCircleIndicator(seekBarWidth, i);
-            addTextIndicatorIfNeeded(seekBarWidth, i);
+//            addCircleIndicator(i);
+            addTextIndicatorIfNeeded(i);
         }
     }
 
-    private void addCircleIndicator(final int seekBarWidth, final int index) {
+    private void addCircleIndicator(final int index) {
         final int thumbnailWidth = mThumbDrawable.getIntrinsicWidth();
         final int sectionFactor = 100 / (mItemsAmount - 1);
-        final float seekBarWidthWithoutThumbOffset = seekBarWidth - thumbnailWidth;
+        final float seekBarWidthWithoutThumbOffset = mSeekBarWidth - thumbnailWidth;
         final LayoutParams indicatorParams = new LayoutParams((int) mIndicatorSize, (int) mIndicatorSize);
         final View indicator = new View(mContext);
         indicator.setBackgroundResource(mIndicatorDrawableId);
@@ -228,37 +235,35 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         addView(indicator, indicatorParams);
     }
 
-    private void addTextIndicatorIfNeeded(final int completeSeekBarWidth, final int index) {
+    private void addTextIndicatorIfNeeded(final int index) {
         if(mItems.length == mItemsAmount) {
-            addTextIndicator(completeSeekBarWidth, index);
+            addTextIndicator(index);
         }
     }
 
-    private void addTextIndicator(final int completeSeekBarWidth, final int index) {
+    private void addTextIndicator(final int index) {
         final int thumbnailWidth = mThumbDrawable.getIntrinsicWidth();
         final int sectionFactor = 100 / (mItemsAmount - 1);
-        final float seekBarWidthWithoutThumbOffset = completeSeekBarWidth - thumbnailWidth;
+        final float seekBarWidthWithoutThumbOffset = mSeekBarWidth - thumbnailWidth;
         final LayoutParams textParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         final TextView textIndicator = new TextView(mContext);
-        final int numberLeftMargin = (int) (seekBarWidthWithoutThumbOffset / 100 * index * sectionFactor + thumbnailWidth / 2);
+        final int textLeftMargin = (int) (seekBarWidthWithoutThumbOffset / 100 * index * sectionFactor + thumbnailWidth / 2);
         textIndicator.setText(mItems[index]);
         textIndicator.setTextSize(mTextSize / mDensity);
         textIndicator.setTextColor(mTextIndicatorColor);
         textIndicator.setTextAppearance(mContext, mTextStyleId);
         textParams.addRule(BELOW, R.id.seek_bar);
         addView(textIndicator, textParams);
-        UiUtils.waitForLayoutPrepared(textIndicator, createTextIndicatorLayoutPreparedListener(numberLeftMargin));
+        UiUtils.waitForLayoutPrepared(textIndicator, createTextIndicatorLayoutPreparedListener(textLeftMargin));
     }
 
-    private UiUtils.LayoutPreparedListener createTextIndicatorLayoutPreparedListener(final int numberLeftMargin) {
+    private UiUtils.LayoutPreparedListener createTextIndicatorLayoutPreparedListener(final int textLeftMargin) {
         return new UiUtils.LayoutPreparedListener() {
             @Override
             public void onLayoutPrepared(final View preparedView) {
-                final int layoutWidth = getWidth() - getPaddingRight();
                 final int viewWidth = preparedView.getWidth();
-                final int leftMargin = numberLeftMargin - viewWidth / 2;
-                final int paddingLeft = getPaddingLeft();
-                final int finalMargin = leftMargin < paddingLeft ? paddingLeft : leftMargin + viewWidth > layoutWidth ? layoutWidth - viewWidth : leftMargin;
+                final int leftMargin = textLeftMargin - viewWidth / 2;
+                final int finalMargin = textLeftMargin == 0 ? 0 : leftMargin + viewWidth > mSeekBarWidth ? mSeekBarWidth - viewWidth : leftMargin;
                 UiUtils.setLeftMargin(preparedView, finalMargin);
             }
         };
@@ -271,6 +276,26 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         params.addRule(ALIGN_TOP, R.id.seek_bar);
         params.topMargin = seekBarHeight/2 - params.height/2;
         addView(mAnimatingThumb, params);
+        mAnimatingThumb.setOnSizeChangedListener(new AnimatingThumb.OnSizeChangedListener() {
+            @Override
+            public void onSizeChanged(final int width, final int height, final int oldWidth, final int oldHeight) {
+                mAnimatingThumb.setTranslationX(calculateBubbleX(getSelectedIndex()));
+            }
+        });
+    }
+
+    private int calculateBubbleX(final int selectedIndex) {
+        final int sectionWidth = mSeekBarWidth / (mItemsAmount - 1);
+        return sectionWidth * selectedIndex;
+    }
+
+    private int getSelectedIndex() {
+        final float sectionLength = 100 / (mItemsAmount - 1);
+        return (int) ((mToProgress / sectionLength) + 0.5);
+    }
+
+    private void initBubbleXPosition() {
+        mBubble.setTranslationX(calculateBubbleX(getSelectedIndex()));
     }
 
     @Override
@@ -295,12 +320,12 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
 
     private void handleSnapToClosestValue() {
         final float sectionLength = 100 / (mItemsAmount - 1);
-        final int selectedSection = (int) ((mToProgress / sectionLength) + 0.5);
-        final int valueToSnap = (int) (selectedSection * sectionLength);
+        final int selectedIndex = (int) ((mToProgress / sectionLength) + 0.5);
+        final int valueToSnap = (int) (selectedIndex * sectionLength);
         animateProgressBar(valueToSnap);
-        animateBubbleToXAndHide(selectedSection);
+        animateBubbleToXAndHide(selectedIndex);
         handleSetBubbleText();
-        invokeItemSelected(selectedSection);
+        invokeItemSelected(selectedIndex);
     }
 
     private void animateProgressBar(final int toProgress) {
@@ -309,16 +334,11 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         startAnimation(anim);
     }
 
-    private void animateBubbleToXAndHide(final int selectedSection) {
-        final int x = calculateBubbleX(selectedSection);
+    private void animateBubbleToXAndHide(final int selectedIndex) {
+        final int x = calculateBubbleX(selectedIndex);
         mBubble.animateToXAndHideWithDelay(x, 200);
-        mAnimatingThumb.setTranslationX(x);
+        mAnimatingThumb.animateToX(x);
         mAnimatingThumb.showWithDelay(400);
-    }
-
-    private int calculateBubbleX(final int selectedSection) {
-        final int sectionWidth = mSeekBar.getWidth() / (mItemsAmount - 1);
-        return sectionWidth * selectedSection;
     }
 
     private void handleSetBubbleText() {
@@ -328,9 +348,9 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         }
     }
 
-    private void invokeItemSelected(final int selectedSection) {
+    private void invokeItemSelected(final int selectedIndex) {
         if(mOnItemSelectionListener != null) {
-            mOnItemSelectionListener.onItemSelected(selectedSection, getItemString(selectedSection));
+            mOnItemSelectionListener.onItemSelected(selectedIndex, getItemString(selectedIndex));
         }
     }
 
@@ -441,45 +461,25 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     public boolean onTouch(final View v, final MotionEvent event) {
         final float x = event.getX();
         final int toProgress = getToProgressForX(x);
+        final int action = event.getAction();
 
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+        if(action == MotionEvent.ACTION_DOWN) {
             mAnimatingThumb.hide();
             mBubble.show();
             mBubble.animateToX((int) x);
             mAnimatingThumb.animateToX((int) x);
             animateProgressBar(toProgress);
-        } else if(event.getAction() == MotionEvent.ACTION_MOVE) {
+        } else if(action == MotionEvent.ACTION_MOVE && x >= 0 && x <= mSeekBarWidth) {
             mBubble.setTranslationX(x);
             mAnimatingThumb.setTranslationX(x);
             handleSetBubbleText();
+        } else if(action == MotionEvent.ACTION_UP) {
         }
         return false;
     }
 
     private int getToProgressForX(final float x) {
-        final float seekBarWidth = mSeekBar.getWidth();
-        return (int) (x / seekBarWidth * 100);
-    }
-
-    private int calcOffset(final float x) {
-        final int thumbOffset = mSeekBar.getThumbOffset();
-        final int seekBarWidth = mSeekBar.getWidth();
-
-
-        return thumbOffset;
-    }
-
-    private int calcOffsetStupid(final float x) {
-        final int thumbOffset = mSeekBar.getThumbOffset();
-        final int seekBarWidth = mSeekBar.getWidth();
-
-        if(x < seekBarWidth/2 - seekBarWidth/4) {
-            return -thumbOffset;
-        } else if(x > seekBarWidth/2 - seekBarWidth/4 && x < seekBarWidth/2 + seekBarWidth/4) {
-            return 0;
-        } else {
-            return thumbOffset;
-        }
+        return (int) (x / mSeekBarWidth * 100);
     }
 
     public interface OnItemSelectionListener {

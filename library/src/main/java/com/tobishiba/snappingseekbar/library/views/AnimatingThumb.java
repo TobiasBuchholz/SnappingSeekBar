@@ -1,6 +1,7 @@
 package com.tobishiba.snappingseekbar.library.views;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -13,10 +14,11 @@ import com.tobishiba.snappingseekbar.library.utils.UiUtils;
  * Date: 20.11.14 | Time: 23:51
  */
 public class AnimatingThumb extends View {
-    private static final long   ANIMATION_DURATION = 300;
-    private final Context       mContext;
-    private int                 mWidth;
-    private int                 mHeight;
+    private static final long       ANIMATION_DURATION = 300;
+    private final Context           mContext;
+    private int                     mWidth;
+    private int                     mHeight;
+    private OnSizeChangedListener   mOnSizeChangedListener;
 
     public AnimatingThumb(final Context context) {
         this(context, null);
@@ -29,17 +31,6 @@ public class AnimatingThumb extends View {
         final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(size, size);
         setBackgroundResource(R.drawable.circle_background);
         setLayoutParams(params);
-        initWidthAndHeight();
-    }
-
-    private void initWidthAndHeight() {
-        UiUtils.waitForLayoutPrepared(this, new UiUtils.LayoutPreparedListener() {
-            @Override
-            public void onLayoutPrepared(final View preparedView) {
-                mWidth = preparedView.getWidth();
-                mHeight = preparedView.getHeight();
-            }
-        });
     }
 
     public void setColor(final int color) {
@@ -56,13 +47,12 @@ public class AnimatingThumb extends View {
     }
 
     public void showWithDelay(final int delay) {
-        animate().scaleX(1)
-                 .scaleY(1)
-                 .setStartDelay(delay)
-                 .setDuration(ANIMATION_DURATION)
-                 .setInterpolator(AnimationUtils.loadInterpolator(mContext, android.R.interpolator.accelerate_decelerate))
-                 .setListener(null);
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                show();
+            }
+        }, delay);
     }
 
     public boolean isVisible() {
@@ -87,7 +77,30 @@ public class AnimatingThumb extends View {
     }
 
     @Override
+    protected void onSizeChanged(final int width, final int height, final int oldWidth, final int oldHeight) {
+        super.onSizeChanged(width, height, oldWidth, oldHeight);
+        mWidth = width;
+        mHeight = height;
+        invokeOnSizeChangedListener(width, height, oldWidth, oldHeight);
+    }
+
+    private void invokeOnSizeChangedListener(final int width, final int height, final int oldWidth, final int oldHeight) {
+        if(mOnSizeChangedListener != null) {
+            mOnSizeChangedListener.onSizeChanged(width, height, oldWidth, oldHeight);
+        }
+    }
+
+    @Override
     public void setTranslationX(final float translationX) {
         super.setTranslationX(translationX - mWidth/2);
+    }
+
+
+    public void setOnSizeChangedListener(final OnSizeChangedListener listener) {
+        mOnSizeChangedListener = listener;
+    }
+
+    public interface OnSizeChangedListener {
+        public void onSizeChanged(final int width, final int height, final int oldWidth, final int oldHeight);
     }
 }

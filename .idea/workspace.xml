@@ -81,8 +81,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <breakpoint_rules converted="true" />
     <ui_properties converted="true" />
+    <breakpoint_rules converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -93,23 +93,27 @@
       <file leaf-file-name="SnappingSeekBar.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/SnappingSeekBar.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.6126126" vertical-offset="3550" max-vertical-offset="7230">
-              <caret line="189" column="60" selection-start-line="189" selection-start-column="60" selection-end-line="189" selection-end-column="60" />
+            <state vertical-scroll-proportion="-1.3423424" vertical-offset="4990" max-vertical-offset="7215">
+              <caret line="296" column="5" selection-start-line="296" selection-start-column="5" selection-end-line="296" selection-end-column="5" />
               <folding>
-                <element signature="e#3198#3379#0" expanded="true" />
-                <element signature="e#8384#8767#0" expanded="true" />
-                <element signature="e#11352#11994#0" expanded="true" />
+                <element signature="e#3363#3544#0" expanded="true" />
+                <element signature="e#8638#9039#0" expanded="true" />
+                <element signature="e#11452#11951#0" expanded="true" />
+                <element signature="e#12418#12711#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="circle_background.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/library/src/main/res/drawable/circle_background.xml">
+      <file leaf-file-name="AnimatingThumb.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/AnimatingThumb.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="11" selection-end-column="8" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1680">
+              <caret line="20" column="59" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="59" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1761#1879#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -117,11 +121,10 @@
       <file leaf-file-name="TextBubble.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/TextBubble.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="262" max-vertical-offset="2280">
-              <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2017" max-vertical-offset="2385">
+              <caret line="158" column="16" selection-start-line="158" selection-start-column="16" selection-end-line="158" selection-end-column="16" />
               <folding>
-                <element signature="e#2097#2351#0" expanded="true" />
-                <element signature="e#3428#3659#0" expanded="true" />
+                <element signature="e#3142#3373#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1434,7 +1437,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="7059281033000" />
+        <entry key="$PROJECT_DIR$" value="7083009884000" />
         <entry key="$USER_HOME$/Eclipse Workspace/android_game_examples /android-samples-master/BasicSamples" value="11165927104000" />
       </map>
     </option>
@@ -1940,11 +1943,11 @@
         <option value="$PROJECT_DIR$/gradle.properties" />
         <option value="$PROJECT_DIR$/library/build.gradle" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/utils/UiUtils.java" />
-        <option value="$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/AnimatingThumb.java" />
         <option value="$PROJECT_DIR$/library/src/main/res/values/ids.xml" />
         <option value="$PROJECT_DIR$/sample/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/sample/src/main/java/com/tobishiba/snappingseekbar/sample/activities/MainActivity.java" />
         <option value="$PROJECT_DIR$/library/src/main/res/drawable/bubble_background.xml" />
+        <option value="$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/AnimatingThumb.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/TextBubble.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/SnappingSeekBar.java" />
       </list>
@@ -1998,8 +2001,8 @@
     </navigator>
     <panes>
       <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2571,19 +2574,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -2609,6 +2599,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2784,18 +2787,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/SnappingSeekBar.java</url>
-          <line>472</line>
-          <properties />
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="22" />
+      <option name="time" value="32" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -3076,7 +3071,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3805" max-vertical-offset="8385">
           <caret line="286" column="0" selection-start-line="286" selection-start-column="0" selection-end-line="286" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3084,7 +3078,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5229358" vertical-offset="165" max-vertical-offset="1770">
           <caret line="44" column="27" selection-start-line="44" selection-start-column="27" selection-end-line="44" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3092,7 +3085,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.49541286" vertical-offset="0" max-vertical-offset="545">
           <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3105,16 +3097,16 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sample/src/main/res/layout/activity_main.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-13.888889" vertical-offset="0" max-vertical-offset="1245">
           <caret line="25" column="40" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="40" />
           <folding>
-            <element signature="e#968#993#0" expanded="true" />
+            <element signature="e#968#993#0" expanded="false" />
           </folding>
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sample/src/main/java/com/tobishiba/snappingseekbar/sample/activities/MainActivity.java">
@@ -3122,17 +3114,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1470" max-vertical-offset="2025">
           <caret line="142" column="0" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
           <folding>
-            <element signature="e#3049#3256#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/AnimatingThumb.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="1485">
-          <caret line="72" column="8" selection-start-line="72" selection-start-column="8" selection-end-line="72" selection-end-column="8" />
-          <folding>
-            <element signature="e#1255#1509#0" expanded="true" />
+            <element signature="e#3049#3256#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3153,25 +3135,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/AnimatingThumb.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1680">
+          <caret line="20" column="59" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1761#1879#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/TextBubble.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="262" max-vertical-offset="2280">
-          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2017" max-vertical-offset="2385">
+          <caret line="158" column="16" selection-start-line="158" selection-start-column="16" selection-end-line="158" selection-end-column="16" />
           <folding>
-            <element signature="e#2097#2351#0" expanded="true" />
-            <element signature="e#3428#3659#0" expanded="true" />
+            <element signature="e#3142#3373#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/tobishiba/snappingseekbar/library/views/SnappingSeekBar.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.6126126" vertical-offset="3550" max-vertical-offset="7230">
-          <caret line="189" column="60" selection-start-line="189" selection-start-column="60" selection-end-line="189" selection-end-column="60" />
+        <state vertical-scroll-proportion="-1.3423424" vertical-offset="4990" max-vertical-offset="7215">
+          <caret line="296" column="5" selection-start-line="296" selection-start-column="5" selection-end-line="296" selection-end-column="5" />
           <folding>
-            <element signature="e#3198#3379#0" expanded="true" />
-            <element signature="e#8384#8767#0" expanded="true" />
-            <element signature="e#11352#11994#0" expanded="true" />
+            <element signature="e#3363#3544#0" expanded="true" />
+            <element signature="e#8638#9039#0" expanded="true" />
+            <element signature="e#11452#11951#0" expanded="true" />
+            <element signature="e#12418#12711#0" expanded="true" />
           </folding>
         </state>
       </provider>
