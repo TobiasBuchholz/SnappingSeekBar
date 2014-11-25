@@ -43,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             app:progressColor="@color/red_light"
-            app:itemsArrayId="@array/seek_bar_with_strings_items"/>
+            app:itemsArrayId="@array/seek_bar_with_strings_items"
+            app:isSnapping="false"/>
         <com.tobishiba.snappingseekbar.library.views.SnappingSeekBar
             android:id="@+id/activity_main_seek_bar_with_different_colors"
             android:layout_width="match_parent"

@@ -14,5 +14,9 @@
         <attr name="textStyle" format="reference"/>
         <attr name="textIndicatorTopMargin" format="dimension"/>
         <attr name="textSize" format="dimension"/>
+        <attr name="showIndicators" format="boolean"/>
+        <attr name="showTextIndicators" format="boolean"/>
+        <attr name="isMaterialStyle" format="boolean"/>
+        <attr name="isSnapping" format="boolean"/>
     </declare-styleable>
 </resources>

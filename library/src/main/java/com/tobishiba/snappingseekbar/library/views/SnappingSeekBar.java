@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -47,6 +46,10 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     private AnimatingThumb          mAnimatingThumb;
     private int                     mBubbleSize;
     private int                     mSeekBarWidth;
+    private boolean                 mShouldShowIndicators;
+    private boolean                 mShouldShowTextIndicators;
+    private boolean                 mIsMaterialStyle;
+    private boolean                 mIsSnapping;
 
     public SnappingSeekBar(final Context context) {
         super(context);
@@ -54,7 +57,7 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         initDensity();
         initDefaultValues();
         initViewsAfterLayoutPrepared();
-        setPadding(mBubbleSize/2, 0, mBubbleSize/2, 0);
+        setPadding(mBubbleSize / 2, 0, mBubbleSize / 2, 0);
         setClipToPadding(false);
     }
 
@@ -104,6 +107,8 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
             initIndicatorAttributes(typedArray);
             initTextAttributes(typedArray);
             initColors(typedArray);
+            initMaterialAttributes(typedArray);
+            initOtherAttributes(typedArray);
         } finally {
             typedArray.recycle();
         }
@@ -147,6 +152,8 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
 
     private void initIndicatorAttributes(final TypedArray typedArray) {
         mIndicatorSize = typedArray.getDimension(R.styleable.SnappingSeekBar_indicatorSize, 11.3f * mDensity);
+        mShouldShowIndicators = typedArray.getBoolean(R.styleable.SnappingSeekBar_showIndicators, false);
+        mShouldShowTextIndicators = typedArray.getBoolean(R.styleable.SnappingSeekBar_showTextIndicators, false);
     }
 
     private void initTextAttributes(final TypedArray typedArray) {
@@ -160,6 +167,14 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         mIndicatorColor = typedArray.getColor(R.styleable.SnappingSeekBar_indicatorColor, Color.WHITE);
         mThumbnailColor = typedArray.getColor(R.styleable.SnappingSeekBar_thumbnailColor, Color.WHITE);
         mTextIndicatorColor = typedArray.getColor(R.styleable.SnappingSeekBar_textIndicatorColor, Color.WHITE);
+    }
+
+    private void initMaterialAttributes(final TypedArray typedArray) {
+        mIsMaterialStyle = typedArray.getBoolean(R.styleable.SnappingSeekBar_isMaterialStyle, true);
+    }
+
+    private void initOtherAttributes(final TypedArray typedArray) {
+        mIsSnapping = typedArray.getBoolean(R.styleable.SnappingSeekBar_isSnapping, true);
     }
 
     public void initViews() {
@@ -191,8 +206,7 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     private void setDrawablesToSeekBar() {
         final Resources resources = getResources();
         mProgressDrawable = resources.getDrawable(mProgressDrawableId);
-        mThumbDrawable = resources.getDrawable(R.drawable.bubble_background);
-//        mThumbDrawable = resources.getDrawable(mThumbDrawableId);
+        mThumbDrawable = resources.getDrawable(mIsMaterialStyle ? R.drawable.bubble_background : mThumbDrawableId);
         UiUtils.setColor(mProgressDrawable, mProgressColor);
         UiUtils.setColor(mThumbDrawable, mThumbnailColor);
         mSeekBar.setProgressDrawable(mProgressDrawable);
@@ -216,9 +230,29 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
 
     private void initIndicators() {
         for(int i = 0; i < mItemsAmount; i++) {
-//            addCircleIndicator(i);
+            handleAddCircleIndicators(i);
+            handleAddTextIndicators(i);
+        }
+    }
+
+    private void handleAddCircleIndicators(final int i) {
+        if(shouldShowCircleIndicators()) {
+            addCircleIndicator(i);
+        }
+    }
+
+    private boolean shouldShowCircleIndicators() {
+        return mShouldShowIndicators && !mIsMaterialStyle;
+    }
+
+    private void handleAddTextIndicators(final int i) {
+        if(shouldShowTextIndicators()) {
             addTextIndicatorIfNeeded(i);
         }
+    }
+
+    private boolean shouldShowTextIndicators() {
+        return mShouldShowTextIndicators;
     }
 
     private void addCircleIndicator(final int index) {
@@ -342,10 +376,22 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
     }
 
     private void handleSetBubbleText() {
+        if(mIsSnapping) {
+            setBubbleTextByIndex();
+        } else {
+            setBubbleText(mSeekBar.getProgress());
+        }
+    }
+
+    private void setBubbleTextByIndex() {
         final int selectedItemIndex = getSelectedItemIndex();
         if(mItems.length > selectedItemIndex) {
             mBubble.setText(mItems[selectedItemIndex]);
         }
+    }
+
+    private void setBubbleText(final int intValue) {
+        mBubble.setText(String.valueOf(intValue));
     }
 
     private void invokeItemSelected(final int selectedIndex) {
@@ -369,7 +415,12 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
 
     @Override
     public void onStopTrackingTouch(final SeekBar seekBar) {
-        handleSnapToClosestValue();
+        if(mIsSnapping) {
+            handleSnapToClosestValue();
+        } else {
+            mBubble.hide();
+            mAnimatingThumb.show();
+        }
     }
 
     public Drawable getProgressDrawable() {
@@ -457,6 +508,10 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
         mIndicatorSize = mDensity * indicatorSize;
     }
 
+    public void setMax(final int max) {
+        mSeekBar.setMax(max);
+    }
+
     @Override
     public boolean onTouch(final View v, final MotionEvent event) {
         final float x = event.getX();
@@ -469,13 +524,25 @@ public class SnappingSeekBar extends RelativeLayout implements SeekBar.OnSeekBar
             mBubble.animateToX((int) x);
             mAnimatingThumb.animateToX((int) x);
             animateProgressBar(toProgress);
-        } else if(action == MotionEvent.ACTION_MOVE && x >= 0 && x <= mSeekBarWidth) {
-            mBubble.setTranslationX(x);
-            mAnimatingThumb.setTranslationX(x);
-            handleSetBubbleText();
-        } else if(action == MotionEvent.ACTION_UP) {
+            handleSetBubbleText(toProgress);
+        } else if(action == MotionEvent.ACTION_MOVE) {
+            if(x >= 0 && x <= mSeekBarWidth) {
+                mBubble.setTranslationX(x);
+                mAnimatingThumb.setTranslationX(x);
+                handleSetBubbleText(toProgress);
+            } else {
+                handleSetBubbleText(x <= 0 ? 0 : x >= mSeekBarWidth ? 100 : toProgress);
+            }
         }
         return false;
+    }
+
+    private void handleSetBubbleText(final int toProgress) {
+        if(mIsSnapping) {
+            setBubbleTextByIndex();
+        } else {
+            setBubbleText(toProgress);
+        }
     }
 
     private int getToProgressForX(final float x) {
